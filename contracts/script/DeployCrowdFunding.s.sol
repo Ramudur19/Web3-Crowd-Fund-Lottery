@@ -5,6 +5,7 @@ import {CrowdFunding} from "../src/CrowdFunding.sol";
 
 contract DeployCrowdFunding is Script {
     function run() external returns (CrowdFunding) {
+        //vm is a special cheatcode object provided by Foundry to interact with the EVM
         vm.startBroadcast();
         CrowdFunding crowdFunding = new CrowdFunding();
 
