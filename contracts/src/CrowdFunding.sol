@@ -11,7 +11,7 @@ contract CrowdFunding {
         bool withdrawn;
     }
 
-    mapping(uint256 => Campaign) public campains;
+    mapping(uint256 => Campaign) public campaigns;
     mapping(uint256 => mapping(address => uint256)) public contributions;
     uint256 public campaignCount;
 
@@ -35,7 +35,7 @@ contract CrowdFunding {
         //Incrementing the campaign count
         campaignCount++;
         //Creating the campaign and saving it in the mapping
-        campains[campaignCount] = Campaign({
+        campaigns[campaignCount] = Campaign({
             creator: msg.sender, //creater of the campaign
             goal: _goal,
             deadline: block.timestamp + (_durationInDays * 1 days),
@@ -53,12 +53,12 @@ contract CrowdFunding {
     //Funding
     function fundCampaign(uint256 _id) public payable {
         //accessing the campaign from the mapping directly increases gas cost
-        // require(campains[_id].deadline > block.timestamp, "Campaign has ended");
+        // require(campaigns[_id].deadline > block.timestamp, "Campaign has ended");
         // require(msg.value > 0, "Funding amount must be greater than 0");
-        // campains[_id].amountCollected += msg.value;
+        // campaigns[_id].amountCollected += msg.value;
 
         //creating alias to access the campaign mapping to save gas
-        Campaign storage campaign = campains[_id];
+        Campaign storage campaign = campaigns[_id];
         require(campaign.deadline > block.timestamp, "Campaign has ended");
         require(msg.value > 0, "Funding amount must be greater than 0");
 
@@ -70,7 +70,7 @@ contract CrowdFunding {
     //Withdraw
     function withdrawFunds(uint256 _id) external {
         //creating alias to access the campaign mapping to save gas
-        Campaign storage campaign = campains[_id];
+        Campaign storage campaign = campaigns[_id];
         require(
             msg.sender == campaign.creator,
             "Only creator can withdraw funds"
@@ -85,7 +85,13 @@ contract CrowdFunding {
         );
         require(!campaign.withdrawn, "Funds already withdrawn");
         campaign.withdrawn = true;
-        payable(campaign.creator).transfer(campaign.amountCollected);
+        //payable(campaign.creator).transfer(campaign.amountCollected);
+
+        // using call instead of transfer
+        (bool success, ) = payable(campaign.creator).call{
+            value: campaign.amountCollected
+        }("");
+        require(success, "Withdraw transfer failed");
         emit ChampaignWithdrawn(
             _id,
             campaign.creator,
@@ -94,9 +100,9 @@ contract CrowdFunding {
     }
 
     //Refund
-    function refund(uint256 _id) external {
-        //creating alias to access the campaign mapping to save gas
-        Campaign storage campaign = campains[_id];
+    function refundFunds(uint256 _id) external {
+        // creating alias to access the campaign mapping to save gas
+        Campaign storage campaign = campaigns[_id];
         require(
             campaign.deadline < block.timestamp,
             "Campaign is still ongoing"
@@ -108,8 +114,15 @@ contract CrowdFunding {
 
         uint256 contributedAmount = contributions[_id][msg.sender];
         require(contributedAmount > 0, "No contributions to refund");
+
+        // reset before sending funds (to prevent re-entrancy attacks)
         contributions[_id][msg.sender] = 0;
-        payable(msg.sender).transfer(contributedAmount);
+        // payable(msg.sender).transfer(contributedAmount);
+        // using call instead of transfer
+        (bool success, ) = payable(msg.sender).call{value: contributedAmount}(
+            ""
+        );
+        require(success, "Refund transfer failed");
 
         emit ChampaignRefunded(_id, msg.sender, contributedAmount);
     }
