@@ -1,41 +1,46 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import "./Navbar.css"; // For styling
+import React, { useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { AuthContext } from "../components/AuthContext";
+import "./Navbar.css";
 
 const Navbar: React.FC = () => {
-  // Mock login state
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const { isLoggedIn, setIsLoggedIn, user, setUser } = useContext(AuthContext);
+  const navigate = useNavigate();
 
-  const handleLogin = () => setIsLoggedIn(true);
-  const handleLogout = () => setIsLoggedIn(false);
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    setIsLoggedIn(false);
+    setUser(null);
+    navigate("/login");
+  };
+
+  const handleProfileClick = () => {
+    navigate("/profile");
+  };
 
   return (
     <nav className="navbar">
-      <h2>CrowdFund</h2>
-      <ul className = "navLinks">
+      <h2 className="logo" onClick={() => navigate("/")}>CrowdFund</h2>
+      <ul className="navLinks">
         {!isLoggedIn ? (
           <>
-            <li>
-              <Link to="/login" onClick={handleLogin}>
-                Login
-              </Link>
-            </li>
-            <li>
-              <Link to="/signup">Signup</Link>
-            </li>
+            <li><Link to="/login">Login</Link></li>
+            <li><Link to="/signup">Signup</Link></li>
           </>
         ) : (
           <>
+            <li><Link to="/">Home</Link></li>
+            <li><Link to="/create">Create Campaign</Link></li>
             <li>
-              <Link to="/">Home</Link>
+              <button className="logout-btn" onClick={handleLogout}>Logout</button>
             </li>
-            <li>
-              <Link to="/create">Create Campaign</Link>
-            </li>
-            <li>
-              <button onClick={handleLogout}>
-                Logout
-              </button>
+            <li
+              className="profile-link"
+              onClick={handleProfileClick}
+              title="Go to Profile"
+            >
+              {user?.username || "User"}
             </li>
           </>
         )}
