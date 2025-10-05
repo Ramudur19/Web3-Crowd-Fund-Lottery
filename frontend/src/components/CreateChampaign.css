@@ -1,0 +1,135 @@
+.create-campaign-container {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #0f172a, #1e293b, #334155);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 50px 20px;
+  }
+  
+  .form-card {
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(12px);
+    border-radius: 20px;
+    padding: 40px;
+    width: 100%;
+    max-width: 500px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    color: white;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .form-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 40px rgba(56, 189, 248, 0.4);
+  }
+  
+  .form-card h2 {
+    text-align: center;
+    margin-bottom: 10px;
+    font-size: 1.8rem;
+    color: #38bdf8;
+    letter-spacing: 1px;
+  }
+  
+  .subtitle {
+    text-align: center;
+    font-size: 0.95rem;
+    color: #94a3b8;
+    margin-bottom: 25px;
+  }
+  
+  .form-card input,
+  .form-card textarea {
+    width: calc(100% - 40px);
+    margin-bottom: 16px;
+    padding: 12px 15px;
+    border: none;
+    border-radius: 10px;
+    outline: none;
+    background: rgba(255, 255, 255, 0.15);
+    color: white;
+    font-size: 1rem;
+    transition: background 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .form-card input:focus,
+  .form-card textarea:focus {
+    background: rgba(255, 255, 255, 0.25);
+    box-shadow: 0 0 10px rgba(56, 189, 248, 0.5);
+  }
+  
+  .form-card input::placeholder,
+  .form-card textarea::placeholder {
+    color: #cbd5e1;
+  }
+  
+  .form-card input[type="file"] {
+    padding: 6px;
+    background: transparent;
+    color: #94a3b8;
+    border: 1px dashed #38bdf8;
+    cursor: pointer;
+  }
+  
+  .form-card img {
+    width: 100%;
+    border-radius: 10px;
+    margin-top: 10px;
+    box-shadow: 0 0 10px rgba(56, 189, 248, 0.3);
+  }
+  
+  .form-card button {
+    width: 100%;
+    padding: 12px 0;
+    border: none;
+    border-radius: 12px;
+    font-size: 1rem;
+    cursor: pointer;
+    color: white;
+    background: linear-gradient(90deg, #38bdf8, #3b82f6, #6366f1);
+    background-size: 200%;
+    transition: background-position 0.4s, transform 0.2s, box-shadow 0.3s;
+  }
+  
+  .form-card button:hover {
+    background-position: right;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(56, 189, 248, 0.5);
+  }
+  
+  .form-card button:active {
+    transform: scale(0.98);
+  }
+  
+  /* Optional – subtle animation for image preview */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  
+  .form-card img {
+    animation: fadeIn 0.4s ease-in-out;
+  }
+  
+  /* Responsive tweaks */
+  @media (max-width: 600px) {
+    .form-card {
+      padding: 30px 20px;
+    }
+  
+    .form-card h2 {
+      font-size: 1.5rem;
+    }
+  
+    .form-card button {
+      font-size: 0.95rem;
+    }
+  }
+  

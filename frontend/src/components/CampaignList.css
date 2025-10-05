@@ -1,0 +1,148 @@
+/* Background & Layout */
+.campaign-page {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    padding: 60px 30px;
+    color: white;
+    font-family: "Inter", sans-serif;
+  }
+  
+  .campaign-title {
+    text-align: center;
+    font-size: 2.8rem;
+    font-weight: 800;
+    background: linear-gradient(to right, #06b6d4, #a855f7);
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 50px;
+  }
+  
+  .no-campaigns {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #ccc;
+  }
+  
+  /* Grid */
+  .campaign-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  /* Card */
+  .campaign-card {
+    position: relative;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(12px);
+    border-radius: 24px;
+    padding: 25px;
+    box-shadow: 0 0 25px rgba(0, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: all 0.3s ease;
+  }
+  
+  .campaign-card:hover {
+    transform: scale(1.02);
+    box-shadow: 0 0 40px rgba(6, 182, 212, 0.3);
+  }
+  
+  .campaign-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 16px;
+    margin-bottom: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+  
+  .campaign-name {
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+  
+  .campaign-description {
+    color: #d1d5db;
+    font-size: 0.95rem;
+    margin-bottom: 10px;
+  }
+  
+  .campaign-info {
+    color: #cbd5e1;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    margin-bottom: 15px;
+  }
+  
+  /* Story */
+  .campaign-story summary {
+    cursor: pointer;
+    color: #06b6d4;
+    font-weight: 600;
+  }
+  
+  .campaign-story p {
+    margin-top: 8px;
+    color: #cbd5e1;
+    font-size: 0.9rem;
+  }
+  
+  /* Funding box */
+  .fund-box {
+    display: flex;
+    margin-top: auto;
+    border-radius: 12px;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(8px);
+  }
+  
+  .fund-input {
+    flex: 1;
+    border: none;
+    outline: none;
+    background: transparent;
+    padding: 12px 14px;
+    color: white;
+    font-size: 0.9rem;
+  }
+  
+  .fund-input::placeholder {
+    color: #aaa;
+  }
+  
+  .fund-button {
+    padding: 12px 18px;
+    font-weight: 600;
+    color: white;
+    border: none;
+    cursor: pointer;
+    background: linear-gradient(to right, #06b6d4, #3b82f6);
+    transition: all 0.3s ease;
+  }
+  
+  .fund-button:hover {
+    background: linear-gradient(to right, #22d3ee, #60a5fa);
+  }
+  
+  .fund-button.disabled {
+    background: gray;
+    cursor: not-allowed;
+  }
+  
+  /* Glow accent */
+  .glow-orb {
+    position: absolute;
+    bottom: -30px;
+    right: -30px;
+    width: 100px;
+    height: 100px;
+    background: rgba(6, 182, 212, 0.3);
+    border-radius: 50%;
+    filter: blur(40px);
+    z-index: 0;
+  }
+  

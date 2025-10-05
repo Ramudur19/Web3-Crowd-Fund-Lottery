@@ -1,30 +1,76 @@
-.navbar{
+.navbar {
     display: flex;
     justify-content: space-between;
-    padding: 10px 20px;
-    background-color: #282c34;
+    align-items: center;
+    background: #0f172a;
     color: white;
-    align-items: center;
-}
-h2 {
-    margin: 0;
-}
-.navLinks {
-    display: flex;
+    padding: 15px 30px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  }
+  
+  .logo {
+    font-size: 1.6rem;
+    cursor: pointer;
+    color: #38bdf8;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+    transition: color 0.3s;
+  }
+  
+  .logo:hover {
+    color: #60a5fa;
+  }
+  
+  .navLinks {
     list-style: none;
-    gap: 15px;
-    margin: 0;
-    padding: 0;
+    display: flex;
+    gap: 25px;
     align-items: center;
-}
-a {
+  }
+  
+  .navLinks a,
+  .navLinks button,
+  .profile-link {
     color: white;
     text-decoration: none;
-}
-button {
-    padding: 5px 10px;
-    background-color: #61dafb;
+    background: none;
     border: none;
-    border-radius: 5px;
+    font-size: 1rem;
     cursor: pointer;
-}
+    transition: color 0.3s, transform 0.2s;
+  }
+  
+  .navLinks a:hover,
+  .navLinks button:hover,
+  .profile-link:hover {
+    color: #38bdf8;
+    transform: scale(1.05);
+  }
+  
+  .logout-btn {
+    background: linear-gradient(90deg, #ef4444, #f87171);
+    color: white;
+    padding: 8px 14px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  
+  .logout-btn:hover {
+    background: linear-gradient(90deg, #f87171, #ef4444);
+  }
+  
+  .profile-link {
+    background: rgba(56, 189, 248, 0.1);
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-weight: 600;
+    transition: 0.3s;
+  }
+  
+  .profile-link:hover {
+    background: rgba(56, 189, 248, 0.2);
+    color: #38bdf8;
+  }
+  
