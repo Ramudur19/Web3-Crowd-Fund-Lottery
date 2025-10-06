@@ -8,12 +8,12 @@ const CampaignList: React.FC = () => {
   const [campaigns, setCampaigns] = useState<Campaign[]>([]);
   const [fundAmounts, setFundAmounts] = useState<{ [key: number]: string }>({});
   const [isFunding, setIsFunding] = useState<{ [key: number]: boolean }>({});
-  const backendURL = "http://localhost:3000";
+  const backendURL = api.defaults.baseURL;
 
   useEffect(() => {
     const fetchCampaigns = async () => {
       try {
-        const res = await api.get("/campaigns");
+        const res = await api.get("/api/campaigns");
         setCampaigns(res.data);
       } catch (err) {
         console.error("Failed to fetch campaigns:", err);
@@ -52,10 +52,10 @@ const CampaignList: React.FC = () => {
 
       await tx.wait();
 
-      alert(`🎉 Successfully funded ${amount} ETH to campaign #${campaignId}`);
+      alert(`Successfully funded ${amount} ETH to campaign #${campaignId}`);
     } catch (err) {
       console.error(err);
-      alert("⚠️ Funding failed. Check console for details.");
+      alert("Funding failed. Check console for details.");
     } finally {
       setIsFunding(prev => ({ ...prev, [campaignId]: false }));
     }

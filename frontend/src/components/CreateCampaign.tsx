@@ -38,7 +38,7 @@ const CreateCampaign: React.FC = () => {
       formData.append("deadline", (Math.floor(Date.now() / 1000) + duration * 24 * 3600).toString());
       if (image) formData.append("image", image);
 
-      await api.post("/campaigns", formData, {
+      await api.post("/api/campaigns", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
 

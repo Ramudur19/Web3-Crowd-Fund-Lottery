@@ -7,7 +7,7 @@ const Campaign = require("../models/campaign");
 // Configure multer for image uploads
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, "uploads/"); // make sure this folder exists at project root
+    cb(null, "uploads/"); 
   },
   filename: function (req, file, cb) {
     cb(null, Date.now() + path.extname(file.originalname));

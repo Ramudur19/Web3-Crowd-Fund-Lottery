@@ -158,7 +158,7 @@ const Profile: React.FC = () => {
 
   const fetchCampaigns = async (addr: string) => {
     try {
-      const res = await api.get(`/campaigns/creator/${addr}`);
+      const res = await api.get(`/api/campaigns/creator/${addr}`);
       setCampaigns(res.data);
     } catch (err) {
       console.error("Error fetching campaigns:", err);
