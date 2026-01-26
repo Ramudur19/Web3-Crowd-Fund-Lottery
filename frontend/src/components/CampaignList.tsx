@@ -4,12 +4,29 @@ import { Campaign } from "../types";
 import { formatEther, parseEther, ethers } from "ethers";
 import "./CampaignList.css";
 
+/* ---------- Import fallback images ---------- */
+import fallback1 from "../images/fallback1.jpg";
+import fallback2 from "../images/fallback2.jpg";
+import fallback3 from "../images/fallback3.jpg";
+import fallback4 from "../images/fallback4.jpg";
+import fallback5 from "../images/fallback5.jpg";
+import fallback6 from "../images/fallback6.jpg";
+
+/* ---------- Fallback image pool ---------- */
+const fallbackImages = [fallback1, fallback2, fallback3, fallback4, fallback5, fallback6];
+
+/* ---------- Deterministic fallback selector ---------- */
+const getFallbackImageForCampaign = (campaignId: number) => {
+  return fallbackImages[campaignId % fallbackImages.length];
+};
+
 const CampaignList: React.FC = () => {
   const [campaigns, setCampaigns] = useState<Campaign[]>([]);
   const [fundAmounts, setFundAmounts] = useState<{ [key: number]: string }>({});
   const [isFunding, setIsFunding] = useState<{ [key: number]: boolean }>({});
   const backendURL = api.defaults.baseURL;
 
+  /* ---------- Fetch campaigns ---------- */
   useEffect(() => {
     const fetchCampaigns = async () => {
       try {
@@ -22,6 +39,7 @@ const CampaignList: React.FC = () => {
     fetchCampaigns();
   }, []);
 
+  /* ---------- Handlers ---------- */
   const handleInputChange = (id: number, value: string) => {
     setFundAmounts(prev => ({ ...prev, [id]: value }));
   };
@@ -43,7 +61,11 @@ const CampaignList: React.FC = () => {
         "function fundCampaign(uint256 campaignId) public payable",
       ];
 
-      const contract = new ethers.Contract(contractAddress, contractABI, signer);
+      const contract = new ethers.Contract(
+        contractAddress,
+        contractABI,
+        signer
+      );
       const amount = fundAmounts[campaignId] || "0";
 
       const tx = await contract.fundCampaign(campaignId, {
@@ -61,6 +83,7 @@ const CampaignList: React.FC = () => {
     }
   };
 
+  /* ---------- Render ---------- */
   return (
     <div className="campaign-page">
       <h2 className="campaign-title">Active Fundraising Campaigns</h2>
@@ -72,13 +95,19 @@ const CampaignList: React.FC = () => {
       <div className="campaign-grid">
         {campaigns.map(c => (
           <div key={c.campaignId} className="campaign-card">
-            {c.image && (
-              <img
-                src={`${backendURL}${c.image}`}
-                alt={c.title}
-                className="campaign-image"
-              />
-            )}
+            <img
+              src={
+                c.image
+                  ? `${backendURL}${c.image}`
+                  : getFallbackImageForCampaign(c.campaignId)
+              }
+              onError={e => {
+                (e.target as HTMLImageElement).src =
+                  getFallbackImageForCampaign(c.campaignId);
+              }}
+              alt={c.title}
+              className="campaign-image"
+            />
 
             <h3 className="campaign-name">{c.title}</h3>
             <p className="campaign-description">{c.description}</p>
@@ -101,13 +130,17 @@ const CampaignList: React.FC = () => {
                 step="0.001"
                 placeholder="0.01 ETH"
                 value={fundAmounts[c.campaignId] || ""}
-                onChange={e => handleInputChange(c.campaignId, e.target.value)}
+                onChange={e =>
+                  handleInputChange(c.campaignId, e.target.value)
+                }
                 className="fund-input"
               />
               <button
                 onClick={() => handleFund(c.campaignId)}
                 disabled={isFunding[c.campaignId]}
-                className={`fund-button ${isFunding[c.campaignId] ? "disabled" : ""}`}
+                className={`fund-button ${
+                  isFunding[c.campaignId] ? "disabled" : ""
+                }`}
               >
                 {isFunding[c.campaignId] ? "Funding..." : "Fund Now 💸"}
               </button>
